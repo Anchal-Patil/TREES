@@ -1,0 +1,489 @@
+1) insertion of elements into binary tree
+#include <stdio.h>
+
+#include <stdlib.h>
+
+// Structure for a binary tree node
+
+struct TreeNode {
+
+ int data;
+struct TreeNode* left;
+struct TreeNode* right;
+};
+
+// Function to create a new node
+
+struct TreeNode* createNode(int data)
+
+{
+
+struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+if (newNode == NULL) {
+    printf("Memory allocation failed!\n");
+    exit(1);
+}
+newNode->data = data;
+newNode->left = NULL;
+newNode->right = NULL;
+return newNode;
+}
+
+// Function to insert a node in the binary tree
+
+struct TreeNode* insertNode(struct TreeNode* root, int data)
+
+{
+
+ if (root == NULL) {
+    root = createNode(data);
+} else if (data <= root->data) {
+    root->left = insertNode(root->left, data);
+} else {
+    root->right = insertNode(root->right, data);
+}
+return root;
+}
+
+// Function to display the binary tree in inorder traversal
+
+void displayTree(struct TreeNode* root)
+
+{
+
+ if (root == NULL) {
+    return;
+}
+displayTree(root->left);
+printf("%d ", root->data);
+displayTree(root->right);
+}
+
+int main()
+
+{
+
+struct TreeNode* root = NULL;
+int numElements, data;
+int i;
+printf("Enter the number of elements: ");
+scanf("%d", &numElements);
+
+for ( i = 0; i < numElements; i++) {
+    printf("Enter element %d: ", i + 1);
+    scanf("%d", &data);
+    root = insertNode(root, data);
+    printf("Binary Tree after inserting %d: ", data);
+    displayTree(root);
+    printf("\n");
+}
+
+return 0;
+}
+
+2) Traversal in binary tree(Numbers)
+#include <stdio.h>
+
+#include <stdlib.h>
+
+#include <time.h>
+
+// Structure for binary tree node
+
+struct Node
+
+{
+
+int data;
+struct Node* left;
+struct Node* right;
+};
+
+// Function to create a new node struct Node* createNode(int data)
+
+{
+
+struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+newNode->data = data;
+newNode->left = NULL;
+newNode->right = NULL;
+return newNode;
+}
+
+// Function to insert a value into the binary tree
+
+struct Node* insert(struct Node* root, int data)
+
+{
+
+   if (root == NULL) {
+    return createNode(data);
+}
+
+if (data < root->data) {
+    root->left = insert(root->left, data);
+} else {
+    root->right = insert(root->right, data);
+}
+
+return root;
+}
+
+// Function to perform preorder traversal of the binary tree and write to file
+
+void preorderTraversal(struct Node* root, FILE* file)
+
+{
+
+if (root == NULL) {
+    return;
+}
+
+fprintf(file, "%d ", root->data);
+preorderTraversal(root->left, file);
+preorderTraversal(root->right, file);
+}
+
+// Function to perform inorder traversal of the binary tree and write to file
+
+void inorderTraversal(struct Node* root, FILE* file)
+
+{
+
+ if (root == NULL) {
+    return;
+}
+
+inorderTraversal(root->left, file);
+fprintf(file, "%d ", root->data);
+inorderTraversal(root->right, file);
+}
+
+// Function to perform postorder traversal of the binary tree and write to file
+
+void postorderTraversal(struct Node* root, FILE* file)
+
+{
+
+ if (root == NULL) {
+    return;
+}
+
+postorderTraversal(root->left, file);
+postorderTraversal(root->right, file);
+fprintf(file, "%d ", root->data);
+}
+
+int main()
+
+{
+
+// Get the number of random numbers from the user
+int num_numbers;
+printf("Enter the number of random numbers to generate: ");
+scanf("%d", &num_numbers);
+
+// Get the lower and upper limits from the user
+int lower_limit, upper_limit;
+printf("Enter the lower limit: ");
+scanf("%d", &lower_limit);
+printf("Enter the upper limit: ");
+scanf("%d", &upper_limit);
+
+// Open the file for writing random numbers
+FILE* numbers_file = fopen("random_numbers.txt", "w");
+if (numbers_file == NULL) {
+    printf("Failed to open the file.\n");
+    return 1;
+}
+
+// Open the files for writing tree traversal outputs
+FILE* preorder_file = fopen("preorder.txt", "w");
+FILE* inorder_file = fopen("inorder.txt", "w");
+FILE* postorder_file = fopen("postorder.txt", "w");
+
+if (preorder_file == NULL || inorder_file == NULL || postorder_file == NULL)
+{
+
+    printf("Failed to open the files.\n");
+    return 1;
+}
+
+// Seed the random number generator
+srand(time(NULL));
+
+// Generate and write random numbers to the file
+int i;
+struct Node* root = NULL;
+for (i = 0; i < num_numbers; i++) {
+    int random_number = (rand() % (upper_limit - lower_limit + 1)) + lower_limit;
+    fprintf(numbers_file, "%d\n", random_number);
+    root = insert(root, random_number);
+}
+
+// Perform tree traversals and write to respective files
+preorderTraversal(root, preorder_file);
+inorderTraversal(root, inorder_file);
+postorderTraversal(root, postorder_file);
+
+// Close all the files
+fclose(numbers_file);
+fclose(preorder_file);
+fclose(inorder_file);
+fclose(postorder_file);
+
+printf("Random numbers and tree traversals have been written to files.\n");
+
+return 0;
+}
+
+3) Traversal in binary tree(Alphabets)
+#include <stdio.h>
+
+#include <stdlib.h>
+
+#include <time.h>
+
+struct Node {
+
+char data;
+struct Node* left;
+struct Node* right;
+};
+
+struct Node* createNode(char data) {
+
+struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+newNode->data = data;
+newNode->left = NULL;
+newNode->right = NULL;
+return newNode;
+}
+
+struct Node* insertNode(struct Node* root, char data)
+
+{
+
+ if (root == NULL) {
+    root = createNode(data);
+}
+else if (data <= root->data) {
+    root->left = insertNode(root->left, data);
+}
+else {
+    root->right = insertNode(root->right, data);
+}
+return root;
+}
+
+void storePreOrder(struct Node* root, FILE* file)
+
+{
+
+if (root == NULL) {
+    return;
+}
+fprintf(file, "%c ", root->data);
+storePreOrder(root->left, file);
+storePreOrder(root->right, file);
+}
+
+void storeInOrder(struct Node* root, FILE* file)
+
+{
+
+ if (root == NULL) {
+    return;
+}
+storeInOrder(root->left, file);
+fprintf(file, "%c ", root->data);
+storeInOrder(root->right, file);
+}
+
+void storePostOrder(struct Node* root, FILE* file)
+
+{
+
+if (root == NULL) {
+    return;
+}
+storePostOrder(root->left, file);
+storePostOrder(root->right, file);
+fprintf(file, "%c ", root->data);
+}
+
+int main()
+
+{
+
+struct Node* root = NULL;
+int i, count;
+char ch;
+
+printf("Enter the number of characters to generate: ");
+scanf("%d", &count);
+
+FILE* randomCharFile = fopen("random_characters.txt", "w");
+if (randomCharFile == NULL) {
+    printf("Failed to open random_characters.txt\n");
+    return 1;
+}
+srand(time(NULL));
+for (i = 0; i < count; i++) {
+    ch = 'A' + (rand() % 26);
+    fprintf(randomCharFile, "%c ", ch);
+    root = insertNode(root, ch);
+}
+fclose(randomCharFile);
+printf("Random characters stored in random_characters.txt\n");
+
+FILE* preOrderFile = fopen("preorder.txt", "w");
+if (preOrderFile == NULL) {
+    printf("Failed to open preorder.txt\n");
+    return 1;
+}
+storePreOrder(root, preOrderFile);
+fclose(preOrderFile);
+printf("Pre-order traversal stored in preorder.txt\n");
+
+FILE* inOrderFile = fopen("inorder.txt", "w");
+if (inOrderFile == NULL) {
+    printf("Failed to open inorder.txt\n");
+    return 1;
+}
+storeInOrder(root, inOrderFile);
+fclose(inOrderFile);
+printf("In-order traversal stored in inorder.txt\n");
+
+FILE* postOrderFile = fopen("postorder.txt", "w");
+if (postOrderFile == NULL) {
+    printf("Failed to open postorder.txt\n");
+    return 1;
+}
+storePostOrder(root, postOrderFile);
+fclose(postOrderFile);
+printf("Post-order traversal stored in postorder.txt\n");
+
+return 0;
+}
+
+4) deletion of specific number from the tree
+#include <stdio.h>
+
+#include <stdlib.h>
+
+#include <time.h>
+
+struct Node
+
+{
+
+int data;
+
+struct Node* left;
+
+struct Node* right;
+};
+
+struct Node* createNode(int data)
+
+{
+
+struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+
+newNode->data = data;
+newNode->left = newNode->right = NULL;
+return newNode;
+}
+
+struct Node* insertNode(struct Node* root, int data)
+
+{
+
+if (root == NULL) {
+    return createNode(data);
+}
+if (data < root->data) {
+    root->left = insertNode(root->left, data);
+} else if (data > root->data) {
+    root->right = insertNode(root->right, data);
+}
+return root;
+}
+
+struct Node* findMinNode(struct Node* node)
+
+{
+
+struct Node* current = node;
+while (current && current->left != NULL) {
+    current = current->left;
+}
+return current;
+}
+
+struct Node* deleteNode(struct Node* root, int data)
+
+{
+
+ if (root == NULL) {
+    return root;
+}
+if (data < root->data) {
+    root->left = deleteNode(root->left, data);
+} else if (data > root->data) {
+    root->right = deleteNode(root->right, data);
+} else {
+    if (root->left == NULL) {
+        struct Node* temp = root->right;
+        free(root);
+        return temp;
+    } else if (root->right == NULL) {
+        struct Node* temp = root->left;
+        free(root);
+        return temp;
+    }
+    struct Node* temp = findMinNode(root->right);
+    root->data = temp->data;
+    root->right = deleteNode(root->right, temp->data);
+}
+return root;
+}
+
+void inorderTraversal(struct Node* root)
+
+{
+
+  if (root != NULL) {
+    inorderTraversal(root->left);
+    printf("%d ", root->data);
+    inorderTraversal(root->right);
+}
+}
+
+int main()
+
+{
+
+struct Node* root = NULL;
+srand(time(0)); // Seed the random number generator
+int i;
+// Insert random numbers into the binary tree
+for ( i = 0; i < 10; i++) {
+    int randomNumber = rand() % 100; // Generate a random number between 0 and 99
+    root = insertNode(root, randomNumber);
+}
+
+printf("Binary tree before deletion: ");
+inorderTraversal(root);
+
+int numberToDelete;
+printf("\nEnter a number to delete from the binary tree: ");
+scanf("%d", &numberToDelete);
+
+root = deleteNode(root, numberToDelete);
+printf("Binary tree after deletion of %d: ", numberToDelete);
+inorderTraversal(root);
+
+return 0;
+}
